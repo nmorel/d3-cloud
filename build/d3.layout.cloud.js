@@ -22,7 +22,7 @@ module.exports = function() {
       timeInterval = Infinity,
       event = dispatch("word", "end"),
       timer = null,
-      random = Math.random,
+      random = function() { return Math.random(); },
       cloud = {},
       canvas = cloudCanvas;
 
@@ -58,8 +58,8 @@ module.exports = function() {
       var start = Date.now();
       while (Date.now() - start < timeInterval && ++i < n && timer) {
         var d = data[i];
-        d.x = (size[0] * (random() + .5)) >> 1;
-        d.y = (size[1] * (random() + .5)) >> 1;
+        d.x = (size[0] * (random(false) + .5)) >> 1;
+        d.y = (size[1] * (random(false) + .5)) >> 1;
         cloudSprite(contextAndRatio, d, data, i);
         if (d.hasText && place(board, d, bounds)) {
           tags.push(d);
@@ -105,7 +105,7 @@ module.exports = function() {
         startY = tag.y,
         maxDelta = Math.sqrt(size[0] * size[0] + size[1] * size[1]),
         s = spiral(size),
-        dt = random() < .5 ? 1 : -1,
+        dt = random(true) < .5 ? 1 : -1,
         t = -dt,
         dxdy,
         dx,
@@ -400,11 +400,11 @@ var spirals = {
 };
 
 },{"d3-dispatch":2}],2:[function(require,module,exports){
-// https://d3js.org/d3-dispatch/ Version 1.0.3. Copyright 2017 Mike Bostock.
+// https://d3js.org/d3-dispatch/ v1.0.5 Copyright 2018 Mike Bostock
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-	typeof define === 'function' && define.amd ? define(['exports'], factory) :
-	(factory((global.d3 = global.d3 || {})));
+typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+typeof define === 'function' && define.amd ? define(['exports'], factory) :
+(factory((global.d3 = global.d3 || {})));
 }(this, (function (exports) { 'use strict';
 
 var noop = {value: function() {}};
